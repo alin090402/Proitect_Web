@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WorkForever.Models;
+using WorkForever.Services.CharacterService;
 
 namespace WorkForever.Controllers;
 
@@ -7,11 +8,16 @@ namespace WorkForever.Controllers;
 [Route("api/[controller]")]
 public class CharacterController : ControllerBase
 {
+    private readonly ICharacterService _characterService;
+    public CharacterController(ICharacterService characterService)
+    {
+        _characterService = characterService;
+    }
+
     [HttpGet("getAll")]
     public async Task<ActionResult<ServiceResponse<List<Character>>>> GetAll()
     {
-        var response = new ServiceResponse<List<Character>>();
-        return response;
+        return Ok(await _characterService.GetAllCharacters());
     }
     
     
