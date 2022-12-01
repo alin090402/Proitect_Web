@@ -5,5 +5,5 @@ namespace WorkForever.Services.CharacterService;
 
 public interface ICharacterService
 {
-    Task<ServiceResponse<List<Character>>> GetAllCharacters();
+    Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters();
 }

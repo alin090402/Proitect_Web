@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WorkForever.Dtos.Character;
 using WorkForever.Models;
 using WorkForever.Services.CharacterService;
 
@@ -15,7 +16,7 @@ public class CharacterController : ControllerBase
     }
 
     [HttpGet("getAll")]
-    public async Task<ActionResult<ServiceResponse<List<Character>>>> GetAll()
+    public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> GetAll()
     {
         return Ok(await _characterService.GetAllCharacters());
     }
