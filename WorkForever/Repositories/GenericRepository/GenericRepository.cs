@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WorkForever.Data;
 using WorkForever.Models.Base;
 
-namespace WorkForever.Repositories.GenericRepository;
+namespace WorkForever.Repositories;
 
 public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
 {

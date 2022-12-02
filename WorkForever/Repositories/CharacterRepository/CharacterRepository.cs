@@ -1,8 +1,8 @@
 ﻿using WorkForever.Data;
 using WorkForever.Models;
-using WorkForever.Repositories.GenericRepository;
+using WorkForever.Repositories;
 
-namespace WorkForever.Repositories.CharacterRepository;
+namespace WorkForever.Repositories;
 
 public class CharacterRepository : GenericRepository<Character>, ICharacterRepository
 {

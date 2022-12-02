@@ -1,5 +1,6 @@
 ﻿using WorkForever.Helpers.Seeders;
-using WorkForever.Repositories.CharacterRepository;
+using WorkForever.Repositories;
+using WorkForever.Repositories.UnitOfWork;
 using WorkForever.Services.CharacterService;
 
 namespace WorkForever.Helpers.Extensions;
@@ -9,6 +10,7 @@ public static class ServiceExtensions
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddTransient<ICharacterRepository, CharacterRepository>();
+        services.AddTransient<IUnitOfWork, UnitOfWork>();
         return services;
     }
 

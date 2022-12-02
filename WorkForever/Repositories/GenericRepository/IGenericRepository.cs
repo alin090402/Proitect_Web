@@ -1,6 +1,6 @@
 ﻿using WorkForever.Models.Base;
 
-namespace WorkForever.Repositories.GenericRepository;
+namespace WorkForever.Repositories;
 
 public interface IGenericRepository<TEntity> where TEntity : BaseEntity
 {
