@@ -1,6 +1,8 @@
 using WorkForever.Data;
 using WorkForever.Services.CharacterService;
 using Microsoft.EntityFrameworkCore;
+using WorkForever.Helpers.Extensions;
+using WorkForever.Helpers.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,10 +15,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddScoped<ICharacterService, CharacterService>();
+builder.Services.AddRepositories();
+builder.Services.AddServices();
+builder.Services.AddSeeders();
+builder.Services.AddUtils();
 
 var app = builder.Build();
-
+SeedData(app);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -31,3 +36,13 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void SeedData(IHost app)
+{
+    var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+    using(var scope = scopedFactory?.CreateScope())
+    {
+        var service = scope?.ServiceProvider.GetService<CharacterSeeder>();
+        service?.SeedCharacters();
+    }
+}

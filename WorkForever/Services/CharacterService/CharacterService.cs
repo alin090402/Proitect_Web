@@ -1,26 +1,24 @@
 ﻿using AutoMapper;
 using WorkForever.Dtos.Character;
 using WorkForever.Models;
+using WorkForever.Repositories.CharacterRepository;
 
 namespace WorkForever.Services.CharacterService;
 
 public class CharacterService : ICharacterService
 {
-    List<Character> characters = new List<Character> {
-        new Character{Id = 0, Username = "nume1", WorkExperience = 1},
-        new Character {Id = 1, Username = "nume2", WorkExperience = 5}
-    };
-
     private readonly IMapper _mapper;
-
-    public CharacterService(IMapper mapper)
+    private readonly ICharacterRepository _repository;
+    public CharacterService(IMapper mapper, ICharacterRepository repository)
     {
         _mapper = mapper;
+        _repository = repository;
     }
 
     public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
     {
         var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
+        var characters = await _repository.GetAllAsync();
         serviceResponse.Data = _mapper.Map<List<GetCharacterDto>>(characters);
         return serviceResponse;
     }
