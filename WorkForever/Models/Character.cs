@@ -1,8 +1,9 @@
-﻿namespace WorkForever.Models;
+﻿using WorkForever.Models.Base;
 
-public class Character
+namespace WorkForever.Models;
+
+public class Character : BaseEntity
 {
-    public int Id { get; set; }
     public string Username { get; set; } = string.Empty;
     public double WorkExperience { get; set; }
     
