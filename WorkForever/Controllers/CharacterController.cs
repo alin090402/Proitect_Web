@@ -21,5 +21,15 @@ public class CharacterController : ControllerBase
         return Ok(await _characterService.GetAllCharacters());
     }
     
-    
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> GetSingle(int id)
+    {
+        return Ok(await _characterService.GetCharacterById(id));
+    }
+    [HttpPost]
+    public async Task<ActionResult<ServiceResponse<AddCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
+    {
+        return Ok(await _characterService.AddCharacter(newCharacter));
+    }
+
 }

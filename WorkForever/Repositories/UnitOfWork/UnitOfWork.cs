@@ -31,6 +31,10 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         _context.SaveChanges();
     }
 
+    public async Task SaveAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
     private bool _disposed = false;
 
     protected virtual void Dispose(bool disposing)
