@@ -10,6 +10,7 @@ namespace WorkForever.Controllers;
 public class CharacterController : ControllerBase
 {
     private readonly ICharacterService _characterService;
+
     public CharacterController(ICharacterService characterService)
     {
         _characterService = characterService;
@@ -20,16 +21,29 @@ public class CharacterController : ControllerBase
     {
         return Ok(await _characterService.GetAllCharacters());
     }
-    
+
     [HttpGet("{id}")]
     public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> GetSingle(int id)
     {
         return Ok(await _characterService.GetCharacterById(id));
     }
+
     [HttpPost]
     public async Task<ActionResult<ServiceResponse<AddCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
     {
         return Ok(await _characterService.AddCharacter(newCharacter));
     }
 
+    [HttpPut]
+    public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> UpdateCharacter(
+        UpdateCharacterDto updatedCharacter)
+    {
+        var response = await _characterService.UpdateCharacter(updatedCharacter);
+        if (response.Data == null)
+        {
+            return NotFound(response);
+        }
+
+        return Ok(response);
+    }
 }

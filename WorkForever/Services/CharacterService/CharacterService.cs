@@ -78,4 +78,25 @@ public class CharacterService : ICharacterService
         serviceResponse.Data = _mapper.Map<List<GetCharacterDto>>(characters);
         return serviceResponse;
     }
+
+    public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter)
+    {
+        var serviceResponse = new ServiceResponse<GetCharacterDto>();
+        var character = _mapper.Map<Character>(updatedCharacter);
+        try
+        {
+            _unitOfWork.CharacterRepository.Update(character);
+            await _unitOfWork.SaveAsync();
+        }
+        catch (Exception ex)
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = "Character could not be updated.";
+            Console.WriteLine(ex);
+            return serviceResponse;
+        }
+        var characterInDb = await _unitOfWork.CharacterRepository.FindByIdAsync(character.Id);
+        serviceResponse.Data = _mapper.Map<GetCharacterDto>(characterInDb);
+        return serviceResponse;
+    }
 }
