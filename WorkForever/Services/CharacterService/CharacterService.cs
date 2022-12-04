@@ -99,4 +99,24 @@ public class CharacterService : ICharacterService
         serviceResponse.Data = _mapper.Map<GetCharacterDto>(characterInDb);
         return serviceResponse;
     }
+
+    public async Task<ServiceResponse<List<GetCharacterDto>>> DeleteCharacter(int id)
+    {
+        var serviceResponse= new ServiceResponse<List<GetCharacterDto>>();
+        try
+        {
+            _unitOfWork.CharacterRepository.Delete(id);
+            await _unitOfWork.SaveAsync();
+        }
+        catch (Exception ex)
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = "Character could not be deleted.";
+            Console.WriteLine(ex);
+            return serviceResponse;
+        }
+        var characters = await _unitOfWork.CharacterRepository.GetAllAsync();
+        serviceResponse.Data = _mapper.Map<List<GetCharacterDto>>(characters);
+        return serviceResponse;
+    }
 }

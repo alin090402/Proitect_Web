@@ -10,4 +10,15 @@ public class CharacterRepository : GenericRepository<Character>, ICharacterRepos
     {
         
     }
+
+    public void Delete(int id)
+    {
+        var character = _context.Characters.Find(id);
+        if(character != null)
+        {
+            _context.Characters.Remove(character);
+            _context.SaveChanges();
+        }
+        throw new Exception("Character not found");
+    }
 }
