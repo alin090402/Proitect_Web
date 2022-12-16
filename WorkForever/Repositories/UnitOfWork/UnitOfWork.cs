@@ -12,6 +12,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
     private DataContext _context;
     private CharacterRepository? _characterRepository;
+    private UserRepository? _userRepository;
 
     public CharacterRepository CharacterRepository
     {
@@ -23,6 +24,18 @@ public class UnitOfWork : IUnitOfWork, IDisposable
             }
 
             return _characterRepository;
+        }
+    }
+    public UserRepository UserRepository
+    {
+        get
+        {
+            if (_userRepository == null)
+            {
+                _userRepository = new UserRepository(_context);
+            }
+
+            return _userRepository;
         }
     }
 
