@@ -14,6 +14,8 @@ public class CharacterSeeder
 
     public void SeedCharacters()
     {
+        // deactivated for now
+        return;
         if (!_context.Characters.Any())
         {
             List<Character> characters = new List<Character>

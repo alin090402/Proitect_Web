@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WorkForever.Models;
+using WorkForever.Models.Base;
 
 namespace WorkForever.Data;
 
@@ -9,5 +10,26 @@ public class DataContext: DbContext
     {
         
     }
+    public override int SaveChanges()
+    {
+        var entries = ChangeTracker
+            .Entries()
+            .Where(e => e.Entity is BaseEntity && (
+                e.State == EntityState.Added
+                || e.State == EntityState.Modified));
+
+        foreach (var entityEntry in entries)
+        {
+            ((BaseEntity)entityEntry.Entity).ModifiedDate = DateTime.Now;
+
+            if (entityEntry.State == EntityState.Added)
+            {
+                ((BaseEntity)entityEntry.Entity).CreatedDate = DateTime.Now;
+            }
+        }
+
+        return base.SaveChanges();
+    }
     public DbSet<Character> Characters { get; set; }
+    public DbSet<User> Users { get; set; }
 }
