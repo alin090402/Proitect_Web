@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using WorkForever.Dtos.Character;
 using WorkForever.Models;
 using WorkForever.Repositories;
@@ -10,11 +11,21 @@ public class CharacterService : ICharacterService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public CharacterService(IMapper mapper, IUnitOfWork unitOfWork)
+    public CharacterService(IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
     {
         _mapper = mapper;
         _unitOfWork = unitOfWork;
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    private int GetUserId()
+    {
+        if (_httpContextAccessor.HttpContext != null)
+            return int.Parse(_httpContextAccessor.HttpContext.User
+                .FindFirstValue(ClaimTypes.NameIdentifier));
+        else return -1;
     }
 
     public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
@@ -50,7 +61,9 @@ public class CharacterService : ICharacterService
     public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
     {
         var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
+
         var character = _mapper.Map<Character>(newCharacter);
+        character.UserId = GetUserId();
         try
         {
             await _unitOfWork.CharacterRepository.CreateAsync(character);
@@ -74,6 +87,7 @@ public class CharacterService : ICharacterService
             Console.WriteLine(ex);
             throw;
         }
+
         var characters = await _unitOfWork.CharacterRepository.GetAllAsync();
         serviceResponse.Data = _mapper.Map<List<GetCharacterDto>>(characters);
         return serviceResponse;
@@ -83,10 +97,21 @@ public class CharacterService : ICharacterService
     {
         var serviceResponse = new ServiceResponse<GetCharacterDto>();
         var character = _mapper.Map<Character>(updatedCharacter);
+
+        var characterInDatabase = await _unitOfWork.CharacterRepository.FindByIdAsync(character.Id);
+        if (characterInDatabase == null || characterInDatabase.UserId != GetUserId())
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = "Character can only be modified by it's owner";
+            return serviceResponse;
+        }
+
         try
         {
-            _unitOfWork.CharacterRepository.Update(character);
+            _mapper.Map<UpdateCharacterDto, Character>(updatedCharacter, characterInDatabase);
             await _unitOfWork.SaveAsync();
+            serviceResponse.Data = _mapper.Map<GetCharacterDto>(characterInDatabase);
+            return serviceResponse;
         }
         catch (Exception ex)
         {
@@ -95,14 +120,11 @@ public class CharacterService : ICharacterService
             Console.WriteLine(ex);
             return serviceResponse;
         }
-        var characterInDb = await _unitOfWork.CharacterRepository.FindByIdAsync(character.Id);
-        serviceResponse.Data = _mapper.Map<GetCharacterDto>(characterInDb);
-        return serviceResponse;
     }
 
     public async Task<ServiceResponse<List<GetCharacterDto>>> DeleteCharacter(int id)
     {
-        var serviceResponse= new ServiceResponse<List<GetCharacterDto>>();
+        var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
         try
         {
             _unitOfWork.CharacterRepository.Delete(id);
@@ -115,6 +137,7 @@ public class CharacterService : ICharacterService
             Console.WriteLine(ex);
             return serviceResponse;
         }
+
         var characters = await _unitOfWork.CharacterRepository.GetAllAsync();
         serviceResponse.Data = _mapper.Map<List<GetCharacterDto>>(characters);
         return serviceResponse;
