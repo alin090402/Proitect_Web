@@ -22,32 +22,6 @@ namespace WorkForever.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WorkForever.Models.Character", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("WorkExperience")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Characters");
-                });
-
             modelBuilder.Entity("WorkForever.Models.Factory", b =>
                 {
                     b.Property<int>("Id")
@@ -56,24 +30,24 @@ namespace WorkForever.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CharacterId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FactoryLevel")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FactoryType")
+                    b.Property<int>("Level")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacterId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Factories");
                 });
@@ -111,6 +85,9 @@ namespace WorkForever.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<double>("WorkExperience")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
@@ -124,16 +101,16 @@ namespace WorkForever.Migrations
 
             modelBuilder.Entity("WorkForever.Models.Factory", b =>
                 {
-                    b.HasOne("WorkForever.Models.Character", "Character")
+                    b.HasOne("WorkForever.Models.User", "User")
                         .WithMany("Factories")
-                        .HasForeignKey("CharacterId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Character");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WorkForever.Models.Character", b =>
+            modelBuilder.Entity("WorkForever.Models.User", b =>
                 {
                     b.Navigation("Factories");
                 });

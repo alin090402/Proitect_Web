@@ -14,5 +14,6 @@ public class User : BaseEntity
     public byte[] PasswordSalt { get; set; }
     public string Email { get; set; } = string.Empty;
     public UserRole Role { get; set; } = UserRole.User;
-    Character? Character { get; set; }
+    public double WorkExperience { get; set; }
+    public List<Factory> Factories { get; set; } 
 }

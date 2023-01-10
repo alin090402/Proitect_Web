@@ -11,22 +11,9 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     }
 
     private DataContext _context;
-    private CharacterRepository? _characterRepository;
     private UserRepository? _userRepository;
     private FactoryRepository? _factoryRepository;
-
-    public CharacterRepository CharacterRepository
-    {
-        get
-        {
-            if (_characterRepository == null)
-            {
-                _characterRepository = new CharacterRepository(_context);
-            }
-
-            return _characterRepository;
-        }
-    }
+    
     public UserRepository UserRepository
     {
         get

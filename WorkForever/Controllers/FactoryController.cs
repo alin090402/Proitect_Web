@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WorkForever.Dtos.Character;
 using WorkForever.Dtos.Factory;
 using WorkForever.Models;
 using WorkForever.Services.FactoryService;
@@ -12,29 +11,29 @@ namespace WorkForever.Controllers;
 [Route("api/[controller]")]
 public class FactoryController : ControllerBase
 {
-    private readonly IFactoryService _characterService;
+    private readonly IFactoryService _factoryService;
 
-    public FactoryController(IFactoryService characterService)
+    public FactoryController(IFactoryService factoryService)
     {
-        _characterService = characterService;
+        _factoryService = factoryService;
     }
 
     [HttpGet("getAll")]
     public async Task<ActionResult<ServiceResponse<List<GetFactoryDto>>>> GetAll()
     {
-        return Ok(await _characterService.GetAllFactories());
+        return Ok(await _factoryService.GetAllFactories());
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> GetSingle(int id)
+    public async Task<ActionResult<ServiceResponse<GetFactoryDto>>> GetSingle(int id)
     {
-        return Ok(await _characterService.GetFactoryById(id));
+        return Ok(await _factoryService.GetFactoryById(id));
     }
 
     [HttpPost]
-    public async Task<ActionResult<ServiceResponse<AddCharacterDto>>> AddFactory(AddFactoryDto newFactory)
+    public async Task<ActionResult<ServiceResponse<GetFactoryDto>>> AddFactory(AddFactoryDto newFactory)
     {
-        return Ok(await _characterService.AddFactory(newFactory));
+        return Ok(await _factoryService.AddFactory(newFactory));
     }
     
 }
