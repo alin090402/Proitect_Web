@@ -1,4 +1,5 @@
-﻿using WorkForever.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using WorkForever.Data;
 using WorkForever.Models;
 using WorkForever.Repositories;
 
@@ -10,6 +11,13 @@ public class CharacterRepository : GenericRepository<Character>, ICharacterRepos
     {
         
     }
+
+    public new async Task CreateAsync(Character entity)
+    {
+        await base.CreateAsync(entity);
+    }
+    
+    
 
     public void Delete(int id)
     {

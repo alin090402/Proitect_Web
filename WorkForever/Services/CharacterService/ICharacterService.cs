@@ -3,7 +3,7 @@ using WorkForever.Models;
 
 namespace WorkForever.Services.CharacterService;
 
-public interface ICharacterService
+public interface ICharacterService : IBaseService
 {
     Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters();
     Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id);

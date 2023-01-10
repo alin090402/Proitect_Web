@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
 using WorkForever.Dtos.Character;
 using WorkForever.Models;
 using WorkForever.Repositories;
@@ -7,46 +8,28 @@ using WorkForever.Repositories.UnitOfWork;
 
 namespace WorkForever.Services.CharacterService;
 
-public class CharacterService : ICharacterService
+public class CharacterService : BaseService, ICharacterService
 {
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public CharacterService(IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
-    {
-        _mapper = mapper;
-        _unitOfWork = unitOfWork;
-        _httpContextAccessor = httpContextAccessor;
-    }
-
-    private int GetUserId()
-    {
-        if (_httpContextAccessor.HttpContext != null)
-            return int.Parse(_httpContextAccessor.HttpContext.User
-                .FindFirstValue(ClaimTypes.NameIdentifier));
-        else return -1;
-    }
-
+    
     public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
     {
         var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-        var characters = await _unitOfWork.CharacterRepository.GetAllAsync();
-        if (characters == null)
+        var characters = await UnitOfWork.CharacterRepository.GetAllAsync();
+        if (characters.IsNullOrEmpty())
         {
             serviceResponse.Success = false;
             serviceResponse.Message = "No characters found";
             return serviceResponse;
         }
 
-        serviceResponse.Data = _mapper.Map<List<GetCharacterDto>>(characters);
+        serviceResponse.Data = Mapper.Map<List<GetCharacterDto>>(characters);
         return serviceResponse;
     }
 
     public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
     {
         var serviceResponse = new ServiceResponse<GetCharacterDto>();
-        var character = await _unitOfWork.CharacterRepository.FindByIdAsync(id);
+        var character = await UnitOfWork.CharacterRepository.FindByIdAsync(id);
         if (character == null)
         {
             serviceResponse.Success = false;
@@ -54,7 +37,7 @@ public class CharacterService : ICharacterService
             return serviceResponse;
         }
 
-        serviceResponse.Data = _mapper.Map<GetCharacterDto>(character);
+        serviceResponse.Data = Mapper.Map<GetCharacterDto>(character);
         return serviceResponse;
     }
 
@@ -62,11 +45,11 @@ public class CharacterService : ICharacterService
     {
         var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
 
-        var character = _mapper.Map<Character>(newCharacter);
-        character.UserId = GetUserId();
+        var character = Mapper.Map<Character>(newCharacter);
+        character.Id = GetUserId();
         try
         {
-            await _unitOfWork.CharacterRepository.CreateAsync(character);
+            await UnitOfWork.CharacterRepository.CreateAsync(character);
         }
         catch (Exception ex)
         {
@@ -78,7 +61,7 @@ public class CharacterService : ICharacterService
 
         try
         {
-            await _unitOfWork.SaveAsync();
+            await UnitOfWork.SaveAsync();
         }
         catch (Exception ex)
         {
@@ -88,18 +71,18 @@ public class CharacterService : ICharacterService
             throw;
         }
 
-        var characters = await _unitOfWork.CharacterRepository.GetAllAsync();
-        serviceResponse.Data = _mapper.Map<List<GetCharacterDto>>(characters);
+        var characters = await UnitOfWork.CharacterRepository.GetAllAsync();
+        serviceResponse.Data = Mapper.Map<List<GetCharacterDto>>(characters);
         return serviceResponse;
     }
 
     public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter)
     {
         var serviceResponse = new ServiceResponse<GetCharacterDto>();
-        var character = _mapper.Map<Character>(updatedCharacter);
+        var character = Mapper.Map<Character>(updatedCharacter);
 
-        var characterInDatabase = await _unitOfWork.CharacterRepository.FindByIdAsync(character.Id);
-        if (characterInDatabase == null || characterInDatabase.UserId != GetUserId())
+        var characterInDatabase = await UnitOfWork.CharacterRepository.FindByIdAsync(character.Id);
+        if (characterInDatabase == null || characterInDatabase.Id != GetUserId())
         {
             serviceResponse.Success = false;
             serviceResponse.Message = "Character can only be modified by it's owner";
@@ -108,9 +91,9 @@ public class CharacterService : ICharacterService
 
         try
         {
-            _mapper.Map<UpdateCharacterDto, Character>(updatedCharacter, characterInDatabase);
-            await _unitOfWork.SaveAsync();
-            serviceResponse.Data = _mapper.Map<GetCharacterDto>(characterInDatabase);
+            Mapper.Map<UpdateCharacterDto, Character>(updatedCharacter, characterInDatabase);
+            await UnitOfWork.SaveAsync();
+            serviceResponse.Data = Mapper.Map<GetCharacterDto>(characterInDatabase);
             return serviceResponse;
         }
         catch (Exception ex)
@@ -127,8 +110,8 @@ public class CharacterService : ICharacterService
         var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
         try
         {
-            _unitOfWork.CharacterRepository.Delete(id);
-            await _unitOfWork.SaveAsync();
+            UnitOfWork.CharacterRepository.Delete(id);
+            await UnitOfWork.SaveAsync();
         }
         catch (Exception ex)
         {
@@ -138,8 +121,12 @@ public class CharacterService : ICharacterService
             return serviceResponse;
         }
 
-        var characters = await _unitOfWork.CharacterRepository.GetAllAsync();
-        serviceResponse.Data = _mapper.Map<List<GetCharacterDto>>(characters);
+        var characters = await UnitOfWork.CharacterRepository.GetAllAsync();
+        serviceResponse.Data = Mapper.Map<List<GetCharacterDto>>(characters);
         return serviceResponse;
+    }
+
+    public CharacterService(IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor) : base(mapper, unitOfWork, httpContextAccessor)
+    {
     }
 }

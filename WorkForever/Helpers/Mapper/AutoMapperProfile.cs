@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using WorkForever.Dtos.Character;
+using WorkForever.Dtos.Factory;
 using WorkForever.Dtos.User;
 using WorkForever.Models;
 
@@ -13,5 +14,7 @@ public class AutoMapperProfile : Profile
         CreateMap<AddCharacterDto, Character>();
         CreateMap<UpdateCharacterDto, Character>();
         CreateMap<UserRegisterDto, User>();
+        CreateMap<Factory, GetFactoryDto>();
+        CreateMap<AddFactoryDto, Factory>();
     }
 }

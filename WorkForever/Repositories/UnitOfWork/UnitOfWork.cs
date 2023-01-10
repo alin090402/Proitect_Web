@@ -13,6 +13,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private DataContext _context;
     private CharacterRepository? _characterRepository;
     private UserRepository? _userRepository;
+    private FactoryRepository? _factoryRepository;
 
     public CharacterRepository CharacterRepository
     {
@@ -39,6 +40,19 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         }
     }
 
+    public FactoryRepository FactoryRepository
+    {
+        get
+        {
+            if (_factoryRepository == null)
+            {
+                _factoryRepository = new FactoryRepository(_context);
+            }
+
+            return _factoryRepository;
+        }
+    }
+    
     public void Save()
     {
         _context.SaveChanges();
