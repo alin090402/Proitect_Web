@@ -2,8 +2,8 @@
 using WorkForever.Repositories;
 using WorkForever.Repositories.UnitOfWork;
 using WorkForever.Services.AuthService;
-using WorkForever.Services.CharacterService;
 using WorkForever.Services.FactoryService;
+using WorkForever.Services.UserService;
 
 namespace WorkForever.Helpers.Extensions;
 
@@ -11,7 +11,6 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddTransient<ICharacterRepository, CharacterRepository>();
         services.AddTransient<IUnitOfWork, UnitOfWork>();
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IFactoryRepository, FactoryRepository>();
@@ -20,7 +19,7 @@ public static class ServiceExtensions
 
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddTransient<ICharacterService, CharacterService>();
+        services.AddTransient<IUserService, UserService>();
         services.AddTransient<IAuthService, AuthService>();
         services.AddTransient<IFactoryService, FactoryService>();
         return services;

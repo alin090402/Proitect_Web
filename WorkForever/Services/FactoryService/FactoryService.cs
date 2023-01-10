@@ -32,15 +32,15 @@ public class FactoryService: BaseService, IFactoryService
     public async Task<ServiceResponse<GetFactoryDto>> GetFactoryById(int id)
     {
         var serviceResponse = new ServiceResponse<GetFactoryDto>();
-        var character = await UnitOfWork.FactoryRepository.FindByIdAsync(id);
-        if (character == null)
+        var factory = await UnitOfWork.FactoryRepository.FindByIdAsync(id);
+        if (factory == null)
         {
             serviceResponse.Success = false;
             serviceResponse.Message = "Factory not found.";
             return serviceResponse;
         }
 
-        serviceResponse.Data = Mapper.Map<GetFactoryDto>(character);
+        serviceResponse.Data = Mapper.Map<GetFactoryDto>(factory);
         return serviceResponse;
     }
 
@@ -49,8 +49,8 @@ public class FactoryService: BaseService, IFactoryService
         var serviceResponse = new ServiceResponse<List<GetFactoryDto>>();
 
         var factory = Mapper.Map<Factory>(newFactory);
-        factory.CharacterId = GetUserId();
-        factory.FactoryLevel = 1;
+        factory.UserId = GetUserId();
+        factory.Level = 1;
         try
         {
             await UnitOfWork.FactoryRepository.CreateAsync(factory);
@@ -75,8 +75,8 @@ public class FactoryService: BaseService, IFactoryService
             throw;
         }
 
-        var characters = await UnitOfWork.CharacterRepository.GetAllAsync();
-        serviceResponse.Data = Mapper.Map<List<GetFactoryDto>>(characters);
+        var factories = await UnitOfWork.FactoryRepository.GetAllAsync();
+        serviceResponse.Data = Mapper.Map<List<GetFactoryDto>>(factories);
         return serviceResponse;
     }
 

@@ -4,5 +4,5 @@ namespace WorkForever.Dtos.Factory;
 
 public class AddFactoryDto
 {
-    public FactoryType FactoryType { get; set; }
+    public FactoryType Type { get; set; }
 }

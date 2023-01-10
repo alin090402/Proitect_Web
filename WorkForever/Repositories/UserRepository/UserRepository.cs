@@ -25,4 +25,17 @@ public class UserRepository: GenericRepository<User>, IUserRepository
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         return user == null;
     }
+    public void Delete(int id)
+    {
+        var user = _context.Users.Find(id);
+        if(user != null)
+        {
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+        }
+        else
+        {
+            throw new Exception("User not found");
+        }
+    }
 }

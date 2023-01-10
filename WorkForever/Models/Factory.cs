@@ -6,8 +6,8 @@ namespace WorkForever.Models;
 
 public class Factory: BaseEntity
 {
-    public FactoryType FactoryType { get; set; }
-    public Character Character { get; set; }
-    public int CharacterId { get; set; }
-    public int FactoryLevel { get; set; }
+    public FactoryType Type { get; set; }
+    public User User { get; set; }
+    public int UserId { get; set; }
+    public int Level { get; set; }
 }
