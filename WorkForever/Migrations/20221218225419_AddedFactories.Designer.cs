@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WorkForever.Data;
 
@@ -11,9 +12,11 @@ using WorkForever.Data;
 namespace WorkForever.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221218225419_AddedFactories")]
+    partial class AddedFactories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace WorkForever.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WorkForever.Models.Factory", b =>
+            modelBuilder.Entity("WorkForever.Models.Character", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,21 +36,49 @@ namespace WorkForever.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Level")
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("WorkExperience")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Characters");
+                });
+
+            modelBuilder.Entity("WorkForever.Models.Factory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CharacterId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FactoryType")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CharacterId");
 
                     b.ToTable("Factories");
                 });
@@ -85,9 +116,6 @@ namespace WorkForever.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<double>("WorkExperience")
-                        .HasColumnType("float");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
@@ -99,10 +127,10 @@ namespace WorkForever.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("WorkForever.Models.Factory", b =>
+            modelBuilder.Entity("WorkForever.Models.Character", b =>
                 {
                     b.HasOne("WorkForever.Models.User", "User")
-                        .WithMany("Factories")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -110,7 +138,18 @@ namespace WorkForever.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WorkForever.Models.User", b =>
+            modelBuilder.Entity("WorkForever.Models.Factory", b =>
+                {
+                    b.HasOne("WorkForever.Models.Character", "Character")
+                        .WithMany("Factories")
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Character");
+                });
+
+            modelBuilder.Entity("WorkForever.Models.Character", b =>
                 {
                     b.Navigation("Factories");
                 });

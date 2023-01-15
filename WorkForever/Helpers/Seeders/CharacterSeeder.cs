@@ -16,15 +16,15 @@ public class CharacterSeeder
     {
         // deactivated for now
         return;
-        if (!_context.Characters.Any())
-        {
-            List<Character> characters = new List<Character>
-            {
-                new Character { Username = "nume1", WorkExperience = 1 },
-                new Character { Username = "nume2", WorkExperience = 5 }
-            };
-            _context.AddRange(characters);
-            _context.SaveChanges();
-        }
+        // if (!_context.Users.Any())
+        // {
+        //     List<User> characters = new List<User>
+        //     {
+        //         new User { Username = "nume1",  WorkExperience = 1 },
+        //         new User { Username = "nume2", WorkExperience = 5 }
+        //     };
+        //     _context.AddRange(characters);
+        //     _context.SaveChanges();
+        // }
     }
 }

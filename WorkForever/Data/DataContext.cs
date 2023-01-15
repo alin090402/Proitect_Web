@@ -30,6 +30,6 @@ public class DataContext: DbContext
 
         return base.SaveChanges();
     }
-    public DbSet<Character> Characters { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Factory> Factories { get; set; }
 }
