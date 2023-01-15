@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WorkForever.Data;
+using WorkForever.Dtos.User;
 using WorkForever.Models;
 
 namespace WorkForever.Repositories;
@@ -24,6 +25,14 @@ public class UserRepository: GenericRepository<User>, IUserRepository
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         return user == null;
+    }
+
+    public async Task<List<User>> GetUsersWithFactoriesAsync()
+    {
+        var users = await _context.Users
+            .Include(u => u.Factories)
+            .ToListAsync();
+        return users;
     }
     public void Delete(int id)
     {

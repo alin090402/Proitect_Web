@@ -27,6 +27,19 @@ public class UserService : BaseService, IUserService
         return serviceResponse;
     }
 
+    public async Task<ServiceResponse<List<GetUserWithFactoriesDto>>> GetUsersWithFactories()
+    {
+        var serviceResponse = new ServiceResponse<List<GetUserWithFactoriesDto>>();
+        var Users = await UnitOfWork.UserRepository.GetUsersWithFactoriesAsync();
+        if (Users.IsNullOrEmpty())
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = "No Users found";
+            return serviceResponse;
+        }
+        serviceResponse.Data = Mapper.Map<List<GetUserWithFactoriesDto>>(Users);
+        return serviceResponse;
+    }
     public async Task<ServiceResponse<GetUserDto>> GetUserById(int id)
     {
         var serviceResponse = new ServiceResponse<GetUserDto>();

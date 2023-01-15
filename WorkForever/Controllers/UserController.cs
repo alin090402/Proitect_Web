@@ -23,6 +23,11 @@ public class UserController : ControllerBase
     {
         return Ok(await _userService.GetAllUsers());
     }
+    [HttpGet("getAllWithFactories")]
+    public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> GetAllWithFactories()
+    {
+        return Ok(await _userService.GetUsersWithFactories());
+    }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ServiceResponse<GetFactoryDto>>> GetSingle(int id)

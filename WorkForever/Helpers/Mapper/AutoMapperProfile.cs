@@ -14,5 +14,6 @@ public class AutoMapperProfile : Profile
         CreateMap<UserRegisterDto, User>();
         CreateMap<Factory, GetFactoryDto>();
         CreateMap<AddFactoryDto, Factory>();
+        CreateMap<User, GetUserWithFactoriesDto>();
     }
 }
