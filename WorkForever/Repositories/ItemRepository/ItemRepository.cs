@@ -27,4 +27,23 @@ public class ItemRepository : GenericRepository<Item>, IItemRepository
                 }).ToListAsync();
         return items;
     }
+
+    public async Task AddItems(int itemId, int userId, int quantity)
+    {
+        var userItem = _context.UserItems.FirstOrDefault(ui => ui.ItemId == itemId && ui.UserId == userId);
+        if (userItem == null)
+        {
+            userItem = new UserItem
+            {
+                ItemId = itemId,
+                UserId = userId,
+                Quantity = quantity
+            };
+            _context.UserItems.Add(userItem);
+        }
+        else
+        {
+            userItem.Quantity += quantity;
+        }
+    }
 }

@@ -33,11 +33,17 @@ namespace WorkForever.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ItemCreatedId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("Salary")
+                        .HasColumnType("float");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -46,6 +52,8 @@ namespace WorkForever.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ItemCreatedId");
 
                     b.HasIndex("UserId");
 
@@ -97,6 +105,9 @@ namespace WorkForever.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("Money")
+                        .HasColumnType("float");
+
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
@@ -146,11 +157,19 @@ namespace WorkForever.Migrations
 
             modelBuilder.Entity("WorkForever.Models.Factory", b =>
                 {
+                    b.HasOne("WorkForever.Models.Item", "ItemCreated")
+                        .WithMany()
+                        .HasForeignKey("ItemCreatedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WorkForever.Models.User", "User")
                         .WithMany("Factories")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ItemCreated");
 
                     b.Navigation("User");
                 });

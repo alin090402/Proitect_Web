@@ -14,7 +14,9 @@ public class User : BaseEntity
     public byte[] PasswordSalt { get; set; }
     public string Email { get; set; } = string.Empty;
     public UserRole Role { get; set; } = UserRole.User;
-    public double WorkExperience { get; set; }
+    public double WorkExperience { get; set; } = 1;
+
+    public double Money { get; set; } = 0;
     public List<Factory> Factories { get; set; } 
     public List<UserItem> UserItems { get; set; }
 }

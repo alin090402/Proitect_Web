@@ -8,4 +8,6 @@ public class GetFactoryDto
     public FactoryType Type { get; set; }
     public int UserId { get; set; }
     public int Level { get; set; }
+    public int ItemCreatedId { get; set; }
+    public double Salary { get; set; }
 }

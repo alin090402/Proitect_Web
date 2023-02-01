@@ -9,4 +9,5 @@ public class GetUserDto
     public string Username { get; set; } = string.Empty;
     public double WorkExperience { get; set; }
     public UserRole Role { get; set; }
+    public double Money { get; set; }
 }

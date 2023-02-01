@@ -5,6 +5,7 @@ using WorkForever.Services.AuthService;
 using WorkForever.Services.FactoryService;
 using WorkForever.Services.ItemService;
 using WorkForever.Services.UserService;
+using WorkForever.Services.WorkService;
 
 namespace WorkForever.Helpers.Extensions;
 
@@ -25,6 +26,7 @@ public static class ServiceExtensions
         services.AddTransient<IAuthService, AuthService>();
         services.AddTransient<IFactoryService, FactoryService>();
         services.AddTransient<IItemService, ItemService>();
+        services.AddTransient<IWorkService, WorkService>();
         return services;
     }
 
