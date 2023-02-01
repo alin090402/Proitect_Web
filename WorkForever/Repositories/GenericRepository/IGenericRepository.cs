@@ -19,6 +19,7 @@ public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     void UpdateRange(IEnumerable<TEntity> entities);
 
     // delete
+    void Delete(int id);
     void Delete(TEntity entity);
     void DeleteRange(IEnumerable<TEntity> entities);
 

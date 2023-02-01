@@ -5,5 +5,6 @@ namespace WorkForever.Models.Enums;
 public enum UserRole
 {
     Admin,
-    User
+    User,
+    None
 }

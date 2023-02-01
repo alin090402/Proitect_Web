@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using WorkForever.Data;
+using WorkForever.Helpers.Exceptions;
 using WorkForever.Models.Base;
 
 namespace WorkForever.Repositories;
@@ -70,6 +71,16 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     }
 
     // delete
+
+    public void Delete(int id)
+    {
+        var entity = _table.Find(id);
+        if (entity != null)
+        {
+            _table.Remove(entity);
+        }
+        else throw new DataNotFoundException("Entity not found");
+    }
 
     public void Delete(TEntity entity)
     {
