@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WorkForever.Data;
 
@@ -11,9 +12,11 @@ using WorkForever.Data;
 namespace WorkForever.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230201143449_AddedItems")]
+    partial class AddedItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,24 +129,6 @@ namespace WorkForever.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("WorkForever.Models.UserItem", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "ItemId");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("UserItems");
-                });
-
             modelBuilder.Entity("WorkForever.Models.Factory", b =>
                 {
                     b.HasOne("WorkForever.Models.User", "User")
@@ -155,35 +140,9 @@ namespace WorkForever.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WorkForever.Models.UserItem", b =>
-                {
-                    b.HasOne("WorkForever.Models.Item", "Item")
-                        .WithMany("UserItems")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WorkForever.Models.User", "User")
-                        .WithMany("UserItems")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WorkForever.Models.Item", b =>
-                {
-                    b.Navigation("UserItems");
-                });
-
             modelBuilder.Entity("WorkForever.Models.User", b =>
                 {
                     b.Navigation("Factories");
-
-                    b.Navigation("UserItems");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,4 +16,5 @@ public class User : BaseEntity
     public UserRole Role { get; set; } = UserRole.User;
     public double WorkExperience { get; set; }
     public List<Factory> Factories { get; set; } 
+    public List<UserItem> UserItems { get; set; }
 }

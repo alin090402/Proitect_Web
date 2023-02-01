@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using WorkForever.Dtos.User;
 using WorkForever.Models;
+using WorkForever.Models.Composed;
 using WorkForever.Repositories.UnitOfWork;
 
 namespace WorkForever.Services.UserService;
@@ -27,17 +28,26 @@ public class UserService : BaseService, IUserService
         return serviceResponse;
     }
 
-    public async Task<ServiceResponse<List<GetUserWithFactoriesDto>>> GetUsersWithFactories()
+    public async Task<ServiceResponse<List<GetUserWithEverythingDto>>> GetUsersWithEverything()
     {
-        var serviceResponse = new ServiceResponse<List<GetUserWithFactoriesDto>>();
-        var Users = await UnitOfWork.UserRepository.GetUsersWithFactoriesAsync();
+        var serviceResponse = new ServiceResponse<List<GetUserWithEverythingDto>>();
+        var Users = await UnitOfWork.UserRepository.GetUsersWithDataAsync();
+        
         if (Users.IsNullOrEmpty())
         {
             serviceResponse.Success = false;
             serviceResponse.Message = "No Users found";
             return serviceResponse;
         }
-        serviceResponse.Data = Mapper.Map<List<GetUserWithFactoriesDto>>(Users);
+        // For each user, get his items with Quantity
+        var UsersWithEverything = Mapper.Map<List<UserWithEverything>>(Users);
+        foreach (var user in UsersWithEverything)
+        {
+            var inventory = await UnitOfWork.ItemRepository.GetInventoryOfUser(user.Id);
+            user.ItemInventories = inventory;
+        }
+        
+        serviceResponse.Data = Mapper.Map<List<GetUserWithEverythingDto>>(UsersWithEverything);
         return serviceResponse;
     }
     public async Task<ServiceResponse<GetUserDto>> GetUserById(int id)

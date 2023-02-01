@@ -3,6 +3,7 @@ using WorkForever.Dtos.Factory;
 using WorkForever.Dtos.Item;
 using WorkForever.Dtos.User;
 using WorkForever.Models;
+using WorkForever.Models.Composed;
 
 namespace WorkForever.Helpers.Mapper;
 
@@ -15,8 +16,10 @@ public class AutoMapperProfile : Profile
         CreateMap<UserRegisterDto, User>();
         CreateMap<Factory, GetFactoryDto>();
         CreateMap<AddFactoryDto, Factory>();
-        CreateMap<User, GetUserWithFactoriesDto>();
+        CreateMap<UserWithEverything, GetUserWithEverythingDto>();
         CreateMap<Item, GetItemDto>();
         CreateMap<AddItemDto, Item>();
+        CreateMap<ItemInventory, GetItemInventoryDto>();
+        CreateMap<User, UserWithEverything>();
     }
 }
