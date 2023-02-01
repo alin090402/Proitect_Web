@@ -33,4 +33,19 @@ public class DataContext: DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Factory> Factories { get; set; }
     public DbSet<Item> Items { get; set; }
+    public DbSet<UserItem> UserItems { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<UserItem>()
+            .HasKey(ui => new { ui.UserId, ui.ItemId });  
+        modelBuilder.Entity<UserItem>()
+            .HasOne(ui => ui.User)
+            .WithMany(u => u.UserItems)
+            .HasForeignKey(ui => ui.UserId);  
+        modelBuilder.Entity<UserItem>()
+            .HasOne(ui => ui.Item)
+            .WithMany(i => i.UserItems)
+            .HasForeignKey(ui => ui.ItemId);
+    }
 }

@@ -24,9 +24,9 @@ public class UserController : ControllerBase
         return Ok(await _userService.GetAllUsers());
     }
     [HttpGet("getAllWithFactories")]
-    public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> GetAllWithFactories()
+    public async Task<ActionResult<ServiceResponse<List<GetUserWithEverythingDto>>>> GetAllWithEverything()
     {
-        return Ok(await _userService.GetUsersWithFactories());
+        return Ok(await _userService.GetUsersWithEverything());
     }
 
     [HttpGet("{id}")]
