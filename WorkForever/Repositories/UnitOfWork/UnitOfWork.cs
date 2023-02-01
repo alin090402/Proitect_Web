@@ -13,6 +13,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private DataContext _context;
     private UserRepository? _userRepository;
     private FactoryRepository? _factoryRepository;
+    private ItemRepository? _itemRepository;
     
     public UserRepository UserRepository
     {
@@ -39,6 +40,20 @@ public class UnitOfWork : IUnitOfWork, IDisposable
             return _factoryRepository;
         }
     }
+
+    public ItemRepository ItemRepository
+    {
+        get
+        {
+            if (_itemRepository == null)
+            {
+                _itemRepository = new ItemRepository(_context);
+            }
+
+            return _itemRepository;
+        }
+    }
+    
     
     public void Save()
     {

@@ -3,6 +3,7 @@ using WorkForever.Repositories;
 using WorkForever.Repositories.UnitOfWork;
 using WorkForever.Services.AuthService;
 using WorkForever.Services.FactoryService;
+using WorkForever.Services.ItemService;
 using WorkForever.Services.UserService;
 
 namespace WorkForever.Helpers.Extensions;
@@ -14,6 +15,7 @@ public static class ServiceExtensions
         services.AddTransient<IUnitOfWork, UnitOfWork>();
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IFactoryRepository, FactoryRepository>();
+        services.AddTransient<IItemRepository, ItemRepository>();
         return services;
     }
 
@@ -22,6 +24,7 @@ public static class ServiceExtensions
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<IAuthService, AuthService>();
         services.AddTransient<IFactoryService, FactoryService>();
+        services.AddTransient<IItemService, ItemService>();
         return services;
     }
 

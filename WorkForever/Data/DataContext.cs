@@ -32,4 +32,5 @@ public class DataContext: DbContext
     }
     public DbSet<User> Users { get; set; }
     public DbSet<Factory> Factories { get; set; }
+    public DbSet<Item> Items { get; set; }
 }
