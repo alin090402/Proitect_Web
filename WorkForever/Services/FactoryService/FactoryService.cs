@@ -23,7 +23,6 @@ public class FactoryService: BaseService, IFactoryService
             serviceResponse.Message = "No factory found";
             return serviceResponse;
         }
-
         serviceResponse.Data = Mapper.Map<List<GetFactoryDto>>(factories);
         return serviceResponse;
     }

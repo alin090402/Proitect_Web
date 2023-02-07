@@ -7,7 +7,7 @@ using WorkForever.Services.AuthService;
 namespace WorkForever.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;

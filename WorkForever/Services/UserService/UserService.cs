@@ -94,6 +94,11 @@ public class UserService : BaseService, IUserService
         }
     }
 
+    public Task<ServiceResponse<GetUserDto>> GetCurrentUser()
+    {
+        return GetUserById(GetUserId());
+    }
+
     public async Task<ServiceResponse<List<GetUserDto>>> DeleteUser(int id)
     {
         var serviceResponse = new ServiceResponse<List<GetUserDto>>();

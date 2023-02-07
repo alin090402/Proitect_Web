@@ -12,8 +12,9 @@ public class WorkService:BaseService, IWorkService
     {
     }
     
-    public async Task<ServiceResponse<WorkResultDto>> CreateWork(int FactoryId)
+    public async Task<ServiceResponse<WorkResultDto>> CreateWork(WorkRequestDto workRequestDto)
     {
+        int factoryId = workRequestDto.FactoryId;
         var serviceResponse = new ServiceResponse<WorkResultDto>();
         int userId = GetUserId();
         var user = await UnitOfWork.UserRepository.FindByIdAsync(userId);
@@ -24,7 +25,7 @@ public class WorkService:BaseService, IWorkService
             return serviceResponse;
         }
         double experience = user.WorkExperience;
-        var factory = await UnitOfWork.FactoryRepository.FindByIdAsync(FactoryId);
+        var factory = await UnitOfWork.FactoryRepository.FindByIdAsync(factoryId);
         if (factory == null)
         {
             serviceResponse.Success = false;

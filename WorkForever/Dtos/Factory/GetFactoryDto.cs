@@ -4,7 +4,7 @@ namespace WorkForever.Dtos.Factory;
 
 public class GetFactoryDto
 {
-    public int Id;
+    public int Id { get; set; }
     public FactoryType Type { get; set; }
     public int UserId { get; set; }
     public int Level { get; set; }

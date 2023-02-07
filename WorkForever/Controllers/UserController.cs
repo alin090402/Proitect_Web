@@ -30,10 +30,16 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ServiceResponse<GetFactoryDto>>> GetSingle(int id)
+    public async Task<ActionResult<ServiceResponse<GetUserDto>>> GetSingle(int id)
     {
         return Ok(await _userService.GetUserById(id));
     }
+    [HttpGet("getCurrentUser")]
+    public async Task<ActionResult<ServiceResponse<GetUserDto>>> GetCurrentUser()
+    {
+        return Ok(await _userService.GetCurrentUser());
+    }
+
     [HttpPut]
     public async Task<ActionResult<ServiceResponse<GetUserDto>>> AddFactory(UpdateUserDto newUser)
     {

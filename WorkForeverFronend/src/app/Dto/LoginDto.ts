@@ -1,5 +1,5 @@
-export interface LoginDto{
+export interface LoginDto {
 
-    Username: string;
-    Password: string;
+  Username: string;
+  Password: string;
 }

@@ -5,5 +5,5 @@ namespace WorkForever.Services.WorkService;
 
 public interface IWorkService:IBaseService
 {
-    public Task<ServiceResponse<WorkResultDto>> CreateWork(int FactoryId);
+    public Task<ServiceResponse<WorkResultDto>> CreateWork(WorkRequestDto workRequestDto);
 }

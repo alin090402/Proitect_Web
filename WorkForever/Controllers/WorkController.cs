@@ -18,9 +18,9 @@ public class WorkController:ControllerBase
         _workService = workService;
     }
     [HttpPost]
-    public async Task<ActionResult<ServiceResponse<WorkResultDto>>> Work(int FactoryId)
+    public async Task<ActionResult<ServiceResponse<WorkResultDto>>> Work(WorkRequestDto workRequest)
     {
-        return Ok(await _workService.CreateWork(FactoryId));
+        return Ok(await _workService.CreateWork(workRequest));
     }
     
     
