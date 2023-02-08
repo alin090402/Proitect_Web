@@ -12,4 +12,5 @@ public class Factory: BaseEntity
     public Item ItemCreated { get; set; }
     public int ItemCreatedId { get; set; }
     public double Salary { get; set; }
+    public List<WorkRecord> WorkRecords { get; set; }
 }

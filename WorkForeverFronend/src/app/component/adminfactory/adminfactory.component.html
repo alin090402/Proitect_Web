@@ -1,0 +1,29 @@
+<!--print data about the factory work history in angular-->
+<div class="container">
+  <h1>Work history</h1>
+  <div class="row">
+    <div class="col-md-4">
+      <h3>ItemsCreated</h3>
+    </div>
+    <div class="col-md-4">
+      <h3>MoneyPaid</h3>
+    </div>
+    <div class="col-md-4">
+      <h3>Time</h3>
+    </div>
+  </div>
+  <div *ngFor="let workRecord of workRecords">
+
+    <div class="row">
+      <div class="col-md-4">
+        <p>{{workRecord.itemsEarned}}</p>
+      </div>
+      <div class="col-md-4">
+        <p>{{workRecord.moneyEarned}}</p>
+      </div>
+      <div class="col-md-4">
+        <p>{{workRecord.workedAt}}</p>
+      </div>
+    </div>
+  </div>
+</div>

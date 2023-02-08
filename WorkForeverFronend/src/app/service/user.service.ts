@@ -4,6 +4,7 @@ import {StorageService} from "./storage.service";
 import {Observable} from "rxjs";
 import {ServiceResponse} from "../Dto/ServiceResponse";
 import {GetUserDto} from "../Dto/GetUserDto";
+import {GetUserWithEverythingDto} from "../Dto/GetUserWithEverythingDto";
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,18 @@ export class UserService {
     const requestOptions = { headers: headers };
     return this.Http
       .get<ServiceResponse<GetUserDto>>('/api/User/getCurrentUser', requestOptions);
+  }
+
+  GetUsersWithEverything(): Observable<ServiceResponse<GetUserWithEverythingDto[]>> {
+    let auth_token = this.storageService.getUserToken()
+const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+  'Authorization': `Bearer ${auth_token}`
+}
+);
+    const requestOptions = { headers: headers };
+    return this.Http
+      .get<ServiceResponse<GetUserWithEverythingDto[]>>('/api/User/getAllWithEverything', requestOptions);
+
   }
 }

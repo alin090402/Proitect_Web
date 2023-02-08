@@ -8,6 +8,7 @@
       <a *ngIf="!isLoggedIn()" mat-button routerLink="/login" routerLinkActive="active">Login</a>
       <a *ngIf="!isLoggedIn()" mat-button routerLink="/register" routerLinkActive="active">Register</a>
       <a *ngIf="isLoggedIn()" mat-button routerLink="/users" routerLinkActive="active">Accounts</a>
+      <a *ngIf="isLoggedIn()" mat-button routerLink="/factories" routerLinkActive="active">Factories</a>
       <a *ngIf="isAdmin()" mat-button routerLink="/admin" routerLinkActive="active">Admin View</a>
       <a (click)="logout()" *ngIf="isLoggedIn()" mat-button>Logout</a>
     </div>

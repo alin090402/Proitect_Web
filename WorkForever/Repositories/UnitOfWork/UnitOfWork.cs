@@ -14,6 +14,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private UserRepository? _userRepository;
     private FactoryRepository? _factoryRepository;
     private ItemRepository? _itemRepository;
+    private WorkRecordRepository? _workRecordRepository;
     
     public UserRepository UserRepository
     {
@@ -51,6 +52,19 @@ public class UnitOfWork : IUnitOfWork, IDisposable
             }
 
             return _itemRepository;
+        }
+    }
+    
+    public WorkRecordRepository WorkRecordRepository
+    {
+        get
+        {
+            if (_workRecordRepository == null)
+            {
+                _workRecordRepository = new WorkRecordRepository(_context);
+            }
+
+            return _workRecordRepository;
         }
     }
     

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Rewrite;
 using WorkForever.Dtos.Work;
 using WorkForever.Models;
+using WorkForever.Repositories;
 using WorkForever.Repositories.UnitOfWork;
 
 namespace WorkForever.Services.WorkService;
@@ -48,10 +49,30 @@ public class WorkService:BaseService, IWorkService
             serviceResponse.Message = "Owner does not have enough money";
             return serviceResponse;
         }
+        if (user.LastWorked != null)
+        {
+            if (DateTime.Now.Subtract(user.LastWorked.Value).TotalMinutes < 5)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "You have to wait 5 minutes to work again";
+                return serviceResponse;
+            }
+        }
+        
         Owner.Money -= moneyEarned;
         user.Money += moneyEarned;
         user.WorkExperience += 1 / experience;
+        DateTime time = DateTime.Now;
+        user.LastWorked = time;
         await UnitOfWork.ItemRepository.AddItems(factory.ItemCreatedId, Owner.Id, itemsCreated);
+        await UnitOfWork.WorkRecordRepository.CreateAsync(new WorkRecord
+        {
+            UserId = userId,
+            FactoryId = factoryId,
+            MoneyEarned = moneyEarned,
+            ItemsEarned = itemsCreated,
+            WorkedAt = time
+        }); 
         await UnitOfWork.SaveAsync();
         serviceResponse.Data = new WorkResultDto
         {
@@ -59,6 +80,34 @@ public class WorkService:BaseService, IWorkService
             Quantity = itemsCreated,
             MoneyGained = moneyEarned
         };
+        return serviceResponse;
+    }
+
+    public async Task<ServiceResponse<List<GetWorkRecordDto>>> GetWorkRecordsByUser(int userId)
+    {
+        var serviceResponse = new ServiceResponse<List<GetWorkRecordDto>>();
+        var workRecords = await UnitOfWork.WorkRecordRepository.GetWorkRecordsByUser(userId);
+        if (!workRecords.Any())
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = "Work records not found";
+            return serviceResponse;
+        }
+        serviceResponse.Data = Mapper.Map<List<GetWorkRecordDto>>(workRecords);
+        return serviceResponse;
+    }
+
+    public async Task<ServiceResponse<List<GetWorkRecordDto>>> GetWorkRecordsByFactory(int factoryId)
+    {
+        var serviceResponse = new ServiceResponse<List<GetWorkRecordDto>>();
+        var workRecords = await UnitOfWork.WorkRecordRepository.GetWorkRecordsByFactory(factoryId);
+        if (!workRecords.Any())
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = "Work records not found";
+            return serviceResponse;
+        }
+        serviceResponse.Data = Mapper.Map<List<GetWorkRecordDto>>(workRecords);
         return serviceResponse;
     }
 }

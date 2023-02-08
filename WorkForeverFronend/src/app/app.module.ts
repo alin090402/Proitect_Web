@@ -21,6 +21,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { FactoryTableComponent } from './component/factory-table/factory-table.component';
 import { ActivityDirective } from './directives/activity.directive';
+import { AdminViewComponent } from './component/admin-view/admin-view.component';
+import { AdminfactoryComponent } from './component/adminfactory/adminfactory.component';
+import { ActivityPipePipe } from './pipe/activity-pipe.pipe';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { ActivityDirective } from './directives/activity.directive';
     UsersTableComponent,
     NavbarComponent,
     FactoryTableComponent,
-    ActivityDirective
+    ActivityDirective,
+    AdminViewComponent,
+    AdminfactoryComponent,
+    ActivityPipePipe
   ],
   imports: [
     HttpClientModule,

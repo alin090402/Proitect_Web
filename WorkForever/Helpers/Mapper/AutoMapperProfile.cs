@@ -2,6 +2,7 @@
 using WorkForever.Dtos.Factory;
 using WorkForever.Dtos.Item;
 using WorkForever.Dtos.User;
+using WorkForever.Dtos.Work;
 using WorkForever.Models;
 using WorkForever.Models.Composed;
 
@@ -21,5 +22,7 @@ public class AutoMapperProfile : Profile
         CreateMap<AddItemDto, Item>();
         CreateMap<ItemInventory, GetItemInventoryDto>();
         CreateMap<User, UserWithEverything>();
+        CreateMap<WorkRecord, GetWorkRecordDto>();
+        
     }
 }

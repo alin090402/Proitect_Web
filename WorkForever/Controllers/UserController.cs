@@ -23,7 +23,7 @@ public class UserController : ControllerBase
     {
         return Ok(await _userService.GetAllUsers());
     }
-    [HttpGet("getAllWithFactories")]
+    [HttpGet("getAllWithEverything")]
     public async Task<ActionResult<ServiceResponse<List<GetUserWithEverythingDto>>>> GetAllWithEverything()
     {
         return Ok(await _userService.GetUsersWithEverything());

@@ -12,5 +12,6 @@ public class UserWithEverything
     public UserRole Role { get; set; } = UserRole.User;
     public double WorkExperience { get; set; }
     public List<Factory> Factories { get; set; }
+    public DateTime? LastWorked { get; set; }
     public List<ItemInventory> ItemInventories { get; set; } = new List<ItemInventory>();
 }

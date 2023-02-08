@@ -34,6 +34,7 @@ public class DataContext: DbContext
     public DbSet<Factory> Factories { get; set; }
     public DbSet<Item> Items { get; set; }
     public DbSet<UserItem> UserItems { get; set; }
+    public DbSet<WorkRecord> WorkRecords { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -47,5 +48,22 @@ public class DataContext: DbContext
             .HasOne(ui => ui.Item)
             .WithMany(i => i.UserItems)
             .HasForeignKey(ui => ui.ItemId);
+
+        modelBuilder.Entity<WorkRecord>()
+            .HasKey(wr => wr.Id);
+        
+        modelBuilder.Entity<WorkRecord>()
+            .HasOne(wr => wr.User)
+            .WithMany(u => u.WorkRecords)
+            .HasForeignKey(wr => wr.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<WorkRecord>()
+            .HasOne(wr => wr.Factory)
+            .WithMany(f => f.WorkRecords)
+            .HasForeignKey(wr => wr.FactoryId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        
     }
+    
 }

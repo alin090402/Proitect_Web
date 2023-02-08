@@ -13,4 +13,5 @@ public class GetUserWithEverythingDto
     public double Money { get; set; }
     public List<GetFactoryDto> Factories { get; set; } = new List<GetFactoryDto>();
     public List<GetItemInventoryDto> ItemInventories { get; set; } = new List<GetItemInventoryDto>();
+    public DateTime? LastWorked { get; set; }
 }

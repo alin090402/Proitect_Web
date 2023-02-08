@@ -1,0 +1,15 @@
+<div class="compacting-menu">
+  <div *ngFor="let menuItem of menu">
+    <div (click)="toggleMenu(menuItem)" class="menu-header" [appActivity] = menuItem.user.lastWorked>
+      {{menuItem.user.username}}
+    </div>
+    <div *ngIf="menuItem.isExpanded" [ngClass]="{'expanded': menuItem.isExpanded, 'collapsed': !menuItem.isExpanded}" class="menu-item" >
+      <p>id : {{menuItem.user.id}}      money: {{menuItem.user.money}}        role: {{menuItem.user.role}}</p>
+      <p>Active: {{menuItem.user.lastWorked| activityPipe:24}}</p>
+      <h3 *ngIf = "menuItem.user.factories.length">Factories:</h3>
+      <a *ngFor="let factory of menuItem.user.factories" class = "factory" mat-button routerLink="/admin/factory/{{factory.id}}" routerLinkActive="active">
+            <p>id: {{factory.id}}     level: {{factory.level}}</p>
+      </a>
+    </div>
+  </div>
+</div>

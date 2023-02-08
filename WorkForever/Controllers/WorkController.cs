@@ -22,6 +22,18 @@ public class WorkController:ControllerBase
     {
         return Ok(await _workService.CreateWork(workRequest));
     }
+
+    [HttpGet("getWorkRecordsByUser/{userId}")]
+    public async Task<ActionResult<ServiceResponse<List<GetWorkRecordDto>>>> GetWorkRecordsByUser (int userId)
+    {
+        return Ok(await _workService.GetWorkRecordsByUser(userId));
+    }
+    [HttpGet("getWorkRecordsByFactory/{factoryId}")]
+    public async Task<ActionResult<ServiceResponse<List<GetWorkRecordDto>>>> GetWorkRecordsByFactory (int factoryId)
+    {
+        return Ok(await _workService.GetWorkRecordsByFactory(factoryId));
+    }
     
-    
+
+
 }

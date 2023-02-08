@@ -19,4 +19,7 @@ public class User : BaseEntity
     public double Money { get; set; } = 0;
     public List<Factory> Factories { get; set; } 
     public List<UserItem> UserItems { get; set; }
+    public DateTime? LastWorked { get; set; }
+    public List<WorkRecord> WorkRecords { get; set; }
+    
 }
