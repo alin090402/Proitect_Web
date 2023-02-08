@@ -1,0 +1,16 @@
+<div class="container default-padding outline-box">
+  <h2>Welcome!</h2>
+  <br>
+  <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+    <div class="no-gutters">
+      <input formControlName="username" matInput placeholder="Username">
+    </div>
+    <div class="row no-gutters">
+      <input formControlName="password" matInput placeholder="Password" type="password">
+    </div>
+    <div class="row no-gutters">
+      <input formControlName="email" matInput placeholder="Email">
+    </div>
+    <button class="btn btn-primary" type="submit">Login</button>
+  </form>
+</div>
