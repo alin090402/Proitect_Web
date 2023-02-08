@@ -35,6 +35,7 @@ public class DataContext: DbContext
     public DbSet<Item> Items { get; set; }
     public DbSet<UserItem> UserItems { get; set; }
     public DbSet<WorkRecord> WorkRecords { get; set; }
+    public DbSet<InfoUser> InfoUsers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

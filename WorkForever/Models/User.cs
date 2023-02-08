@@ -22,4 +22,6 @@ public class User : BaseEntity
     public DateTime? LastWorked { get; set; }
     public List<WorkRecord> WorkRecords { get; set; }
     
+    public InfoUser InfoUser { get; set; }
+    
 }

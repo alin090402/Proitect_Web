@@ -37,6 +37,12 @@ public class UserRepository: GenericRepository<User>, IUserRepository
             .ToListAsync();
         return users;
     }
+
+    public async Task<bool> CreateInfoUser(InfoUser infoUser)
+    {
+        _context.InfoUsers.Add(infoUser);
+        return true;
+    }
     //TODO: solve this, made a workaround
     // public async Task<List<UserWithEverything>> GetUsersWithEverythingAsync()
     // {

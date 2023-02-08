@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
+using WorkForever.Dtos;
 using WorkForever.Dtos.User;
+using WorkForever.Migrations;
 using WorkForever.Models;
 using WorkForever.Models.Composed;
 using WorkForever.Repositories.UnitOfWork;
@@ -50,6 +52,18 @@ public class UserService : BaseService, IUserService
         serviceResponse.Data = Mapper.Map<List<GetUserWithEverythingDto>>(UsersWithEverything);
         return serviceResponse;
     }
+
+    public async Task<ServiceResponse<bool>> AddUserInfo(AddUserInfoDto newUserInfo)
+    {
+        var serviceResponse = new ServiceResponse<bool>();
+        var userInfo = Mapper.Map<InfoUser>(newUserInfo);
+        if (!await UnitOfWork.UserRepository.CreateInfoUser(userInfo))
+        {
+            serviceResponse.Success = false;
+        }
+        return serviceResponse;
+    }
+
     public async Task<ServiceResponse<GetUserDto>> GetUserById(int id)
     {
         var serviceResponse = new ServiceResponse<GetUserDto>();

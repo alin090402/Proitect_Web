@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WorkForever.Dtos;
 using WorkForever.Dtos.Factory;
 using WorkForever.Dtos.User;
 using WorkForever.Models;
@@ -38,6 +39,11 @@ public class UserController : ControllerBase
     public async Task<ActionResult<ServiceResponse<GetUserDto>>> GetCurrentUser()
     {
         return Ok(await _userService.GetCurrentUser());
+    }
+    [HttpPost("addUserInfo")]
+    public async Task<ActionResult<ServiceResponse<GetUserDto>>> AddUserInfo(AddUserInfoDto newUser)
+    {
+        return Ok(await _userService.AddUserInfo(newUser));
     }
 
     [HttpPut]
